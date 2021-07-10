@@ -1,0 +1,9 @@
+confin.mean.iv=function(vec,y){
+  confin.mean(vec,y)[1]-confin.mean(vec,y)[2]
+}
+confin.var.iv=function(vec,y){
+  confin.var(vec,y)[1]-confin.var(vec,y)[2]
+}
+confin.iv=function(vec,y,kind){
+  confin(vec,y,kind)[1]-confin(vec,y,kind)[2]
+}

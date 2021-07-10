@@ -38,3 +38,7 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# Anothers
+myg_data\tw_anova.mole.*
+

@@ -1,0 +1,8 @@
+export("asds", "ck", "confin", "confin.eq_pop_var", "confin.eq_pop_var.data", "confin.eq_pop_var.data.returns", "confin.iv",
+       "confin.ivs.returns", "confin.mean", "confin.mean.data", "confin.mean.data.returns", "confin.mean.iv", "confin.mean_df",
+       "confin.mean_df_eq", "confin.mean_df_eq.data", "confin.mean_df_eq.data.returns", "confin.mean_df_kn", "confin.mean_kn",
+       "confin.mean_kn.data", "confin.mean_kn.data.returns", "confin.mean2", "confin.n", "confin.var", "confin.var.data",
+       "confin.var.data.returns", "confin.var.iv", "confin.ver", "confin.version", "cs", "fcb1doc", "fcbproi", "ftmp", "g_alpha",
+       "g_ar", "g_dof", "g_lower", "g_mean", "g_t", "g_upper", "g_var", "game_x", "game_y", "goti", "imports", "mstat1", "mstat2",
+       "nu", "nu_al_h", "nu_al_hm", "nu_alpha", "nu_ar", "nu_dof", "nu_kai_h", "nu_kai_hm", "nu_lower", "nu_mean", "nu_upper",
+       "nu_var", "resdev", "sct", "seiki", "seiki2", "slec", "smean", "svar")

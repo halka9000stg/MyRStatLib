@@ -1,0 +1,9 @@
+Package: MyRStatLib
+Type: Package
+Title: Library of R language on Statics, for Myself.
+Version: 1.0
+Date: 2021-07-08
+Author: Haruka Sato
+Maintainer: haruka Sato<takuyamatsunaga.pub@ya.ru>
+Description: MyOwn Toolkit Package on Statics
+License: Mozilla Public License Version 2.0

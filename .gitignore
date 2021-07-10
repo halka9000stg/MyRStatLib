@@ -40,5 +40,5 @@ vignettes/*.pdf
 .Renviron
 
 # Anothers
-myg_data\tw_anova.mole.*
+myg_data/tw_anova.mole.*
 

@@ -1,5 +1,5 @@
 #正規分布描画
-grp.normal = function(t,cl,x0,x1,l0,l1){
+plot.normal = function(t,cl,x0,x1,l0,l1){
   #平均,分散,色
   ln = nrow(t)
   for(i in 1:ln){

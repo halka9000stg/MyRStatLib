@@ -1,21 +1,11 @@
+confin.names=function(vec){
+  confin.names.proto(vec,c("lower","upper"))
+}
+confin.names.proto=function(vec,lab){
+  names(vec)=lab
+  vec
+}
 
-confin=function(vec,y,kind){
-  if(kind=="mean"){
-    confin.mean(vec,y)
-  }
-  if(kind=="var"){
-    confin.var(vec,y)
-  }
-  confin.n()
-}
-confin.names=function(x){
-  names(x)=c("lower","upper")
-  x
-}
-confin.names.proto=function(x,proto){
-  names(x)=proto
-  x
-}
 # (y*100)% interval estimation for a population mean of (vec), with normal-distribution.
 # population variance known
 confin.mean_kn=function(vec,y,pop_var){
@@ -27,7 +17,7 @@ confin.mean_kn=function(vec,y,pop_var){
   normval_hf=qnorm(al_hf)
   lower=mn-normval_hf*sqrt(pop_var/len)
   upper=mn+normval_hf*sqrt(pop_var/len)
-  res = confin.names(c(lower,upper))
+  res = confin.names(confin.swap(c(lower,upper)))
   res
 }
 confin.mean_kn.data=function(vec,y,pop_var){
@@ -57,7 +47,7 @@ confin.mean=function(vec,y){
   tval_hf=qt(al_hf,dof)
   lower=mn-tval_hf*sqrt(vr/len)
   upper=mn+tval_hf*sqrt(vr/len)
-  res = confin.names(c(lower,upper))
+  res = confin.names(confin.swap(c(lower,upper)))
   res
 }
 confin.mean.data=function(vec,y){
@@ -83,7 +73,7 @@ confin.mean2=function(len,mn,vr,y){
   tval_hf=qt(al_hf,dof)
   lower=mn-tval_hf*sqrt(vr/len)
   upper=mn+tval_hf*sqrt(vr/len)
-  res = confin.names(c(lower,upper))
+  res = confin.names(confin.swap(c(lower,upper)))
   res
 }
 
@@ -100,7 +90,7 @@ confin.var=function(vec,y){
   chival_hf_m=qchisq(al_hf_m,dof)
   lower=(dof*vr)/chival_hf
   upper=(dof*vr)/chival_hf_m
-  res = confin.names(c(lower,upper))
+  res = confin.names(confin.swap(c(lower,upper)))
   res
 }
 confin.var.data=function(vec,y){
@@ -129,7 +119,13 @@ confin.mean_df_kn=function(vec,y){}
 
 # (y*100)% interval estimation for a population mean difference of (vec), with t-distribution, and mearged variance.
 # var1=var2=var,but unknown
-confin.mean_df_eq=function(x_len,x_mean,x_var,y_len,y_mean,y_var,y){
+confin.mean_df_eq=function(x_vec,y_vec,y){
+  x_len=10#length(x_vec)
+  x_mean=102.8#mean(x_vec)
+  x_var=2#var(x_vec)
+  y_len=10#length(x_vec)
+  y_mean=101.4#mean(x_vec)
+  y_var=4#var(x_vec)
   x_dof=x_len-1
   y_dof=y_len-1
   alpha=1-y
@@ -137,7 +133,8 @@ confin.mean_df_eq=function(x_len,x_mean,x_var,y_len,y_mean,y_var,y){
   mgd_var=(x_dof*x_var+y_dof*y_var)/(x_dof+y_dof)
   lower=(x_mean-y_mean)-tval*(x_dof+y_dof)*sqrt(mgd_var*((1/x_len)+(1/y_len)))
   upper=(x_mean-y_mean)+tval*(x_dof+y_dof)*sqrt(mgd_var*((1/x_len)+(1/y_len)))
-  res = confin.names(c(lower,upper))
+  res = confin.names(confin.swap(c(lower,upper)))
+  t=((x_mean - y_mean)-(x_var - y_var))/(mgd_var*sqrt((1/x_len)+(y_len)))
   res
 }
 confin.mean_df_eq.data=function(x_len,x_mean,x_var,y_len,y_mean,y_var,y){
@@ -173,7 +170,7 @@ confin.eq_pop_var=function(x_vec,y_vec,y){
   fval_hf_m=1/fval_hf
   lower=fval_hf_m*(x_var/y_var)
   upper=fval_hf*(x_var/y_var)
-  res = confin.names(c(lower,upper))
+  res = confin.names(confin.swap(c(lower,upper)))
   res
 }
 confin.eq_pop_var.data=function(x_vec,y_vec,y){
@@ -197,3 +194,62 @@ confin.eq_pop_var.data=function(x_vec,y_vec,y){
 confin.eq_pop_var.data.returns=function(){
   c("x_len","y_len","x_mean","y_mean","x_var","y_var","x_dof","y_dof","alpha","al_hf","fval_hf","fval_hf_m")
 }
+
+
+confin.ratio=function(spe_len,spe_tr,y){
+  alpha=1-y
+  al_hf=alpha/2
+  ratio = spe_tr/spe_len
+  normval=qnorm(al_hf)
+  lower = ratio - normval*sqrt((ratio*(1-ratio))/spe_len)
+  upper = ratio + normval*sqrt((ratio*(1-ratio))/spe_len)
+  res = confin.names(confin.swap(c(lower,upper)))
+  res
+}
+confin.nsur=function(y,max_wid){
+  alpha=1-y
+  al_hf=alpha/2
+  normval=qnorm(al_hf)
+  nsq=normval*(1/max_wid)
+  nsq^2
+}
+
+
+
+
+confin.swap=function(vec){
+  if(length(vec)!=2){
+    warning("length of vecter in argument must be 2")
+  }
+  a=vec[1]
+  b=vec[2]
+  if(a>b){
+    return(c(b,a))
+  }else{
+    return(vec)
+  }
+}
+
+
+
+
+
+
+
+# confin=list("mean_kn"=function(vec,y,pop_var){confin.mean_kn(vec,y,pop_var)},
+#             "mean_kn.data"=function(vec,y,pop_var){confin.mean_kn.data(vec,y,pop_var)},
+#             "mean_kn.data.returns"=function(){confin.mean_kn.data.returns()},
+#             "mean"=function(vec,y){confin.mean(vec,y)},
+#             "mean.data"=function(vec,y){confin.mean.data(vec,y)},
+#             "mean.data.returns"=function(){confin.mean.data.returns()},
+#             "mean2"=function(len,mn,vr,y){confin.mean2(len,mn,vr,y)},
+#             "var"=function(vec,y){confin.var(vec,y)},
+#             "var.data"=function(vec,y){confin.var.data(vec,y)},
+#             "var.data.returns"=function(){confin.var.data.returns()},
+#             "mean_df_kn"=function(vec,y){confin.mean_df_kn(vec,y)},
+#             "mean_df_eq"=function(){confin.mean_df_eq},
+#             "mean_df_eq.data"=function(x_len,x_mean,x_var,y_len,y_mean,y_var,y){confin.mean_df_eq.data(x_len,x_mean,x_var,y_len,y_mean,y_var,y)},
+#             "mean_df_eq.data.returns"=function(){confin.mean_df_eq.data.returns()},
+#             "eq_pop_var"=function(x_vec,y_vec,y){confin.eq_pop_var(x_vec,y_vec,y)},
+#             "eq_pop_var.data"=function(x_vec,y_vec,y){confin.eq_pop_var.data(x_vec,y_vec,y)},
+#             "eq_pop_var.data.returns"=function(){confin.eq_pop_var.data.returns()},)

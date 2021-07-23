@@ -1,4 +1,4 @@
-sct=function(){
+plot.sct=function(){
   plot(sin,xlim=c(0,5),ylim=c(-1,1),ylab="",col=5,lty=3)
   par(new=T)
   plot(cos,xlim=c(0,5),ylim=c(-1,1),ylab="",col=1,lty=4)

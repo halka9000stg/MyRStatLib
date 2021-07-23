@@ -1,5 +1,5 @@
 # Deviation value
-deviations = function(vec){
+std.deviations = function(vec){
   len = length(vec)
   mn = mean(vec)
   vr = var(vec)
@@ -9,13 +9,13 @@ deviations = function(vec){
   }
   devs
 }
-deviations.takeval = function(vec,i){
+std.deviations.takeval = function(vec,i){
   devs = deviation(vec)
   devs[i]
 }
 
 # manage-al
-man.getsd = function(){
+std.man.getsd = function(){
   dirr = "./myg_data/"
   dirs = dir(pattern = ".r", dirr)
   for(x in 1:length(dirs)){
